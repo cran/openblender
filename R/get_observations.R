@@ -28,36 +28,43 @@ get_observations <- function(json_parametros, url) {
     stop <- Sys.time()
     segundos <- ceiling(stop - start)
     tam_pedazo <- as.integer(round(600 / as.integer(segundos), digits = 0))
-    nums_pedazos <- ceiling(t_universo / tam_pedazo)
-    if (nums_pedazos <= 0) {
-      nums_pedazos <- 1
-    }
-    df_resp <- NULL
-    for (i in seq(0, nums_pedazos, by = 1)) {
-      json_parametros$tamano_bin <- tam_pedazo
-      json_parametros$skip <- tam_pedazo * i
-      data <- list(action = action, json = json_parametros)
-      respuesta <- dameRespuestaLlamado(url, data)
-      df <- respuesta$sample
-      if (is.null(df_resp)) {
-        df_resp <- df
-      } else {
-        df_resp <- rbind(df_resp, df)
+    if(tam_pedazo < t_universo) {
+      nums_pedazos <- ceiling(t_universo / tam_pedazo)
+      if (nums_pedazos <= 0) {
+        nums_pedazos <- 1
       }
-      avance <- round(((i) / nums_pedazos) * 100, digits = 2)
-      if (avance >= 100) {
-        message(paste(avance, "% completed."))
-      } else {
-        message(paste(avance, "%"))
+      df_resp <- NULL
+      secuencia <- seq(0, nums_pedazos - 1, by = 1)
+      for (i in secuencia) {
+        json_parametros$tamano_bin <- tam_pedazo
+        json_parametros$skip <- tam_pedazo * i
+        data <- list(action = action, json = json_parametros)
+        respuesta <- dameRespuestaLlamado(url, data)
+        df <- respuesta$sample
+        if (is.null(df_resp)) {
+          df_resp <- df
+        } else {
+          df_resp <- rbind(df_resp, df)
+        }
+        avance <- round(((i) / nums_pedazos) * 100, digits = 2)
+        if (avance >= 100) {
+          message(paste(avance, "% completed."))
+        } else {
+          message(paste(avance, "%"))
+        }
       }
-    }
-    if ("sample_size" %in% attributes(json_parametros)$names) {
-      if (as.integer(json_parametros$sample_size) < nrow(df_resp)) {
-        df_resp <- df_resp[-sample(nrow(df_resp), (nrow(df_resp) - as.integer(json_parametros$sample_size))), ]
+      if ("sample_size" %in% attributes(json_parametros)$names) {
+        if (as.integer(json_parametros$sample_size) < nrow(df_resp)) {
+          df_resp <- df_resp[-sample(nrow(df_resp), (nrow(df_resp) - as.integer(json_parametros$sample_size))), ]
+        }
       }
+    } else {
+      df_resp <- respuesta$sample
     }
   }
-  df_resp <- df_resp[order(-as.integer(df_resp$timestamp)), ]
+  if("timestamp" %in% attributes(df_resp)) {
+    df_resp <- df_resp[order(-as.integer(df_resp$timestamp)), ]
+  }
   respuesta <- list(universe_size = t_universo, sample = df_resp)
   return(respuesta)
 }
