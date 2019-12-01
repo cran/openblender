@@ -12,7 +12,7 @@ insert_observations <- function(json_parametros, url) {
     test_call <- FALSE
   }
   if (test_call == 1) {
-    message("This is a TEST CALL, set \"test_call\" : \"off\" or remove to execute service.")
+    message("This is a TEST CALL, set \"test_call\"=\"off\" or remove to execute service.")
   }
   if ("dataframe" %in% attributes(json_parametros)$names) {
     nom_obs <- "dataframe"
@@ -38,22 +38,27 @@ insert_observations <- function(json_parametros, url) {
     tam_pedazo <- as.integer(round(600 / segundos, digits = 0))
     json_particion <- json_parametros
     for (i in seq(tam_pedazo_ini, n_filas, by = tam_pedazo)) {
-      if ((n_filas - i) < tam_pedazo) {
-        tam_pedazo <- (n_filas - i)
-      }
-      df_nuevo <- obj$df_nuevo[(i + 1):(i + tam_pedazo), ]
-      json_particion[nom_obs] <- toJSON(df_nuevo, dataframe = "columns")
-      data <- list(action = action, json = json_particion)
-      respuesta <- dameRespuestaLlamado(url, data)
-      #Imprimir avance
-      avance <- round(((i + tam_pedazo) / n_filas) * 100, digits = 2)
-      if (avance >= 100) {
-        message("100%")
-        message("Wrapping Up..")
-      } else {
-        message(paste(avance, "%"))
-        Sys.sleep(2)
-      }
+      tryCatch({
+        if ((n_filas - i) < tam_pedazo) {
+          tam_pedazo <- (n_filas - i)
+        }
+        df_nuevo <- obj$df_nuevo[(i + 1):(i + tam_pedazo), ]
+        json_particion[nom_obs] <- toJSON(df_nuevo, dataframe = "columns")
+        data <- list(action = action, json = json_particion)
+        respuesta <- dameRespuestaLlamado(url, data)
+        #Imprimir avance
+        avance <- round(((i + tam_pedazo) / n_filas) * 100, digits = 2)
+        if (avance >= 100) {
+          message("100%")
+          message("Wrapping Up..")
+        } else {
+          message(paste(avance, "%"))
+          Sys.sleep(2)
+        }
+      },
+      error = function(e) {
+        message("Some observations might not have been uploaded.")
+      })
     }
   } else {
     json_parametros[nom_obs] <- toJSON(obj$df_nuevo, dataframe = "columns")

@@ -60,8 +60,11 @@ call <- function(action, parameters) {
            },
            API_powerModel = {
              respuesta <- power_model(parameters, url)
-           }
-           , {
+           },
+           API_getDataWithVectorizer = {
+             respuesta <- getDataWithVectorizer(parameters, url)
+           },
+           {
              data <- list(action = action, json = parameters)
              respuesta <- dameRespuestaLlamado(url, data)
             }

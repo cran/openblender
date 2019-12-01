@@ -8,7 +8,7 @@ dameRespuestaLlamado <- function(url, data) {
   data$json <- toJSON(data$json, auto_unbox = TRUE)
   resp <- POST(url = url, body = data, encode = "form")
   if ("status" %in% attributes(content(resp))$names && content(resp)$status == "error") {
-    message(content(resp))
+    warning(content(resp))
     return(FALSE)
   } else {
     cont <- content(resp)
