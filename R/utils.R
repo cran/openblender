@@ -14,7 +14,15 @@ dameRespuestaLlamado <- function(url, data) {
     cont <- content(resp)
     if ("sample" %in% attributes(cont)$names) {
       sample <- toJSON(cont$sample, dataframe = "rows")
-      cont$sample <- fromJSON(sample)
+      sample <- fromJSON(sample)
+      new_sample <- data.frame()
+      for(i in seq(1, nrow(sample), by=1)) {
+        for(column in colnames(sample)) {
+          new_sample[i,column] <- sample[i,column][[1]]
+        }
+      }
+      # colnames(new_sample) <- colnames(sample)
+      cont$sample <- new_sample
     }
     return(cont)
   }

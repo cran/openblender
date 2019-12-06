@@ -58,15 +58,14 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
             df_resp <- rbind(df_resp, df)
           }
           avance <- round(((i) / nums_pedazos) * 100, digits = 2)
-          if (avance >= 100) {
-            message(paste(avance, "% completed."))
-          } else {
-            message(paste(avance, "%"))
-          }
+          message(paste(avance, "%"))
         },
         error = function(e){
-          message("Some observations could not be processed.")
+          message("Some observations could not be processed.", e)
         })
+      }
+      if(nrow(df_resp) >= 100 || nrow(df_resp) == t_universo) {
+        message("100% completed.")
       }
       if ("sample_size" %in% attributes(json_parametros)$names) {
         if (as.integer(json_parametros$sample_size) < nrow(df_resp)) {
