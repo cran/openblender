@@ -7,6 +7,7 @@
 dameRespuestaLlamado <- function(url, data) {
   data$json <- toJSON(data$json, auto_unbox = TRUE)
   resp <- POST(url = url, body = data, encode = "form")
+  # message(resp)
   if ("status" %in% attributes(content(resp))$names && content(resp)$status == "error") {
     warning(content(resp))
     return(FALSE)
@@ -15,14 +16,7 @@ dameRespuestaLlamado <- function(url, data) {
     if ("sample" %in% attributes(cont)$names) {
       sample <- toJSON(cont$sample, dataframe = "rows")
       sample <- fromJSON(sample)
-      new_sample <- data.frame()
-      for(i in seq(1, nrow(sample), by=1)) {
-        for(column in colnames(sample)) {
-          new_sample[i,column] <- sample[i,column][[1]]
-        }
-      }
-      # colnames(new_sample) <- colnames(sample)
-      cont$sample <- new_sample
+      cont$sample <- sample
     }
     return(cont)
   }

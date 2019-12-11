@@ -8,6 +8,20 @@ getDataWithVectorizer <- function(json_parametros, url) {
   return(genericDownloadCall(json_parametros, url, action, 5, 300))
 }
 
+clean_dataframe <- function(df, rep=1) {
+  if(rep == 1) {
+    new_df <- df
+  } else {
+    new_df <- data.frame()
+  }
+  for (i in seq(1, nrow(df), by=1)) {
+    for (column in colnames(df)) {
+      new_df[i, column] <- df[i, column][[1]]
+    }
+  }
+  return(new_df)
+}
+
 
 #'@title Request to the API, depending on the action provided
 #'@description Prepare the data to send it 'OpenBlender' API. This function is not used by users.
@@ -76,6 +90,8 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
       df_resp <- respuesta$sample
     }
   }
+  df_resp <- clean_dataframe(df_resp)
+  df_resp <- clean_dataframe(df_resp, rep=2)
   if("timestamp" %in% attributes(df_resp)) {
     df_resp <- df_resp[order(-as.integer(df_resp$timestamp)), ]
   }
