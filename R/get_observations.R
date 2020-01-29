@@ -48,10 +48,14 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
     message("Downloading...")
     data <- list(action = action, json = json_parametros)
     respuesta <- dameRespuestaLlamado(url, data)
+    message(respuesta)
     t_universo <- respuesta$universe_size
     stop <- Sys.time()
     segundos <- ceiling(stop - start)
     tam_pedazo <- as.integer(round(slice_mult / as.integer(segundos), digits = 0))
+    message(tam_pedazo)
+    message("t_universo")
+    message(t_universo)
     if(tam_pedazo < t_universo) {
       nums_pedazos <- ceiling(t_universo / tam_pedazo)
       if (nums_pedazos <= 0) {
