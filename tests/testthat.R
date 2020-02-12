@@ -34,12 +34,14 @@
 # ############################################################
 # #####################Obtain observations####################
 action <- "API_getObservationsFromDataset"
-# DATASET: 'BBC News Business headlines'
+# ANCHOR: 'Donald Trump Tweet'
+# BLENDS: 'ABC News  International Business headlines'
 parameters <- list(
-  token="5d07bed33e59b27a93e43be804ij5qcy5ss9jHsoBpwpxsvLZqyrcU",
-  id_user="5d07bed33e59b27a93e43be8",
-  id_dataset="5d82477f951629088f08cef5",
-  sample_size=200
+  oblender=1,
+  token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
+  id_user="5d48b439275b3f05db0feee2",
+  id_dataset="5e0847a5647910d75ee482da",
+  blends = list(list(id_blend = "5e083e53ede39ccb825fc4ed",blend_class = "closest_observation",restriction = "None",blend_type = "ts",drop_features = list()))
 )
 df <- openblender::call(action, parameters)$sample
 head(df)
