@@ -31,11 +31,15 @@
 # )
 # response <- openblender::call(action, parameters)
 # response
+
+
+
 # ############################################################
 # #####################Obtain observations####################
-action <- "API_getObservationsFromDataset"
 # ANCHOR: 'Donald Trump Tweet'
 # BLENDS: 'ABC News  International Business headlines'
+
+action <- "API_getObservationsFromDataset"
 parameters <- list(
   oblender=1,
   token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
@@ -46,3 +50,34 @@ parameters <- list(
 df <- openblender::call(action, parameters)$sample
 head(df)
 
+
+
+# #prueba para obtener un text vectorizer
+# action <- "API_getDataWithVectorizer"
+# parameters <- list(
+#   oblender=1,
+#   token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
+#   id_user="5d48b439275b3f05db0feee2",
+#   id_textVectorizer="5e4ac5b6a239d58424368f72"
+# )
+# df <- openblender::call(action, parameters)$sample
+# head(df)
+#
+#
+# # prueba pull data con blend y text vectorizer
+# action <- "API_getObservationsFromDataset"
+#
+# # ANCHOR: 'Trump Approval Rate'
+# # BLENDS: 'Corn Price', 'ABC and Fox TV'
+#
+# parameters <- list(
+#   oblender=1,
+#   token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
+#   id_user="5d48b439275b3f05db0feee2",
+#   id_dataset="5e1fd587437dc891c126fa6b",
+#   blends = list(list(id_blend = "5d976070f86334ee1cfc14f0",restriction = "None",blend_type = "ts",drop_features = list()),list(id_blend = "5e4ac5b6a239d58424368f72",restriction = "None",blend_type = "text_ts",specifications = list(time_interval_size = 43200,text_filter_search = list())))
+# )
+#
+#
+# df <- openblender::call(action, parameters)$sample
+# head(df)

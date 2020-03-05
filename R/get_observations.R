@@ -1,11 +1,48 @@
 get_observations <- function(json_parametros, url) {
   action <- "API_getSampleObservationsFromDataset"
-  return(genericDownloadCall(json_parametros, url, action, 25, 600))
+  initialized_task <- initializeTask(json_parametros, url)
+  if (initialized_task$confirm == "y") {
+    message("Task confirmed. Starting download...")
+    json_parametros$consumption_id <- initialized_task$consumption_id
+    json_parametros$r_version <- packageVersion("openblender")
+    return(genericDownloadCall(json_parametros, url, action, 25, 600))
+  } else {
+    message("\nTask cancelled. To execute tasks without prompt set 'consumption_confirmation' to 0.")
+    return(list(status="cancelled"))
+  }
 }
 
 getDataWithVectorizer <- function(json_parametros, url) {
-  action <- "API_getDataWithVectorizer"
-  return(genericDownloadCall(json_parametros, url, action, 5, 300))
+  action <- "API_getSampleObservationsWithVectorizerPlus"
+  initialized_task <- initializeTask(json_parametros, url)
+  if (initialized_task$confirm == "y") {
+    message("Task confirmed. Starting download...")
+    json_parametros$consumption_id <- initialized_task$consumption_id
+    json_parametros$r_version <- packageVersion("openblender")
+    return(genericDownloadCall(json_parametros, url, action, 5, 300))
+  } else {
+    message("\nTask cancelled. To execute tasks without prompt set 'consumption_confirmation' to 0.")
+    return(list(status="cancelled"))
+  }
+}
+
+initializeTask <- function(json_parametros, url) {
+  data <- list(action = "API_initializeTask", json = json_parametros)
+  details_task <- dameRespuestaLlamado(url, data)
+  consumption_id <- details_task$consumption_id
+  message(paste("Task ID: ", consumption_id))
+  message(paste("Total estimated consumption: ", round(details_task$details$total_consumption, 2)), " processing units.")
+  if ("consumption_confirmation" %in% attributes(json_parametros)$names) {
+    consumption_confirmation <- json_parametros$consumption_confirmation
+  } else {
+    consumption_confirmation <- 'off'
+  }
+  if (consumption_confirmation == 'on') {
+    confirm <- readline("Continue?  [y] yes \t [n] no \n")
+  } else {
+    confirm <- "y"
+  }
+  return(list(confirm = confirm, consumption_id = consumption_id))
 }
 
 clean_dataframe <- function(df, rep=1) {
@@ -80,6 +117,7 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
       }
       if(nrow(df_resp) >= 100 || nrow(df_resp) == t_universo) {
         message("100% completed.")
+        message("Wrapping up, this may take a few minutes...")
       }
       if ("sample_size" %in% attributes(json_parametros)$names) {
         if (as.integer(json_parametros$sample_size) < nrow(df_resp)) {
