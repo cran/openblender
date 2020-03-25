@@ -36,21 +36,17 @@
 
 # ############################################################
 # #####################Obtain observations####################
-# ANCHOR: 'Donald Trump Tweet'
-# BLENDS: 'ABC News  International Business headlines'
-
-action <- "API_getObservationsFromDataset"
-parameters <- list(
-  oblender=1,
-  token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
-  id_user="5d48b439275b3f05db0feee2",
-  id_dataset="5e0847a5647910d75ee482da",
-  blends = list(list(id_blend = "5e083e53ede39ccb825fc4ed",blend_class = "closest_observation",restriction = "None",blend_type = "ts",drop_features = list()))
-)
-df <- openblender::call(action, parameters)$sample
-head(df)
-
-
+# ANCHOR: 'Milenio entertainment headlines'
+# action <- "API_getObservationsFromDataset"
+# parameters <- list(
+#   token="5d07bed33e59b27a93e43be804ij5qcy5ss9jHsoBpwpxsvLZqyrcU",
+#   id_user="5d07bed33e59b27a93e43be8",
+#   id_dataset="5dc48aaf9516290ee03eb91e",
+#   consumption_confirmation='on'
+# )
+#
+# df <- openblender::call(action, parameters)$sample
+# head(df)
 
 # #prueba para obtener un text vectorizer
 # action <- "API_getDataWithVectorizer"
@@ -65,19 +61,32 @@ head(df)
 #
 #
 # # prueba pull data con blend y text vectorizer
-# action <- "API_getObservationsFromDataset"
-#
-# # ANCHOR: 'Trump Approval Rate'
-# # BLENDS: 'Corn Price', 'ABC and Fox TV'
-#
+
+action <- "API_getObservationsFromDataset"
+
+# ANCHOR: 'Time Entertainment headlines'
+
+
+parameters <- list(
+  token="5d07bed33e59b27a93e43be804ij5qcy5ss9jHsoBpwpxsvLZqyrcU",
+  id_user="5d07bed33e59b27a93e43be8",
+  id_dataset="5d88492e9516294231c59595"
+)
+
+
+df <- openblender::call(action, parameters)$sample
+head(df)
+
+
+# probar get open text data
+# action <- "API_getOpenTextData"
 # parameters <- list(
-#   oblender=1,
-#   token="5d48b439275b3f05db0feee2PfZabUszloyThHiTpqqzwmOXDkzyJ9",
-#   id_user="5d48b439275b3f05db0feee2",
-#   id_dataset="5e1fd587437dc891c126fa6b",
-#   blends = list(list(id_blend = "5d976070f86334ee1cfc14f0",restriction = "None",blend_type = "ts",drop_features = list()),list(id_blend = "5e4ac5b6a239d58424368f72",restriction = "None",blend_type = "text_ts",specifications = list(time_interval_size = 43200,text_filter_search = list())))
+#   token="5ca62dafe213e54e846509eaUfctPkE1Imah1QNaoNYCp9fbZKjzOW",
+#   date_filter = list(start_date="2020-01-01", end_date="2020-03-10"),
+#   text_filter_search = list("covid","coronavirus"),
+#   aggregate_in_time_interval = list(time_interval_size = 60 * 60 * 24),
+#   sources = list(list(id_dataset = '5e2ef74e9516294390e810a9', features = list('text')))
 # )
+# df <- openblender::call(action, parameters)
 #
-#
-# df <- openblender::call(action, parameters)$sample
-# head(df)
+# view(df)

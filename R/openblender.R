@@ -64,6 +64,9 @@ call <- function(action, parameters) {
            API_getDataWithVectorizer = {
              respuesta <- getDataWithVectorizer(parameters, url)
            },
+           API_getOpenTextData = {
+             respuesta <- getOpenTextData(parameters, url)
+           },
            {
              data <- list(action = action, json = parameters)
              respuesta <- dameRespuestaLlamado(url, data)

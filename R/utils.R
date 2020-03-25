@@ -7,6 +7,8 @@
 dameRespuestaLlamado <- function(url, data) {
   data$json <- toJSON(data$json, auto_unbox = TRUE, force = TRUE)
   resp <- POST(url = url, body = data, encode = "form")
+  # message("RESPUESTA")
+  # message(resp)
   if ("status" %in% attributes(content(resp))$names && content(resp)$status == "error") {
     warning("------------------------------------------------")
     warning(paste("API call error: ", content(resp)$response))
@@ -14,7 +16,6 @@ dameRespuestaLlamado <- function(url, data) {
     return(FALSE)
   } else {
     cont <- content(resp)
-    # message(attributes(cont)$names)
     # if ("base64_zip" %in% attributes(cont)$names) {
     #   message(cont$base64_zip)
     #   raw_chars <- charToRaw(cont$base64zip)
@@ -22,6 +23,8 @@ dameRespuestaLlamado <- function(url, data) {
     #   cont <- unserialize(base64_dec(raw_chars))
     #   message(cont)
     # }
+    # message("CONTENIDO")
+    # message(cont)
     if ("sample" %in% attributes(cont)$names) {
       sample <- toJSON(cont$sample, dataframe = "rows")
       sample <- fromJSON(sample)

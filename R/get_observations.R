@@ -26,6 +26,20 @@ getDataWithVectorizer <- function(json_parametros, url) {
   }
 }
 
+getOpenTextData <- function(json_parametros, url) {
+  action <- "API_getOpenTextData"
+  initialized_task <- initializeTask(json_parametros, url)
+  if (initialized_task$confirm == "y") {
+    message("Task confirmed. Starting download...")
+    json_parametros$consumption_id <- initialized_task$consumption_id
+    json_parametros$r_version <- packageVersion("openblender")
+    return(genericDownloadCall(json_parametros, url, action, 25, 500))
+  } else {
+    message("\nTask cancelled. To execute tasks without prompt set 'consumption_confirmation' to 0.")
+    return(list(status="cancelled"))
+  }
+}
+
 initializeTask <- function(json_parametros, url) {
   data <- list(action = "API_initializeTask", json = json_parametros)
   details_task <- dameRespuestaLlamado(url, data)
@@ -128,8 +142,10 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
       df_resp <- respuesta$sample
     }
   }
-  df_resp <- clean_dataframe(df_resp)
-  df_resp <- clean_dataframe(df_resp, rep=2)
+  if(action != "API_getOpenTextData"){
+    df_resp <- clean_dataframe(df_resp)
+    df_resp <- clean_dataframe(df_resp, rep=2)
+  }
   if("timestamp" %in% attributes(df_resp)) {
     df_resp <- df_resp[order(-as.integer(df_resp$timestamp)), ]
   }
