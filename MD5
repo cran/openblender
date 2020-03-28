@@ -1,11 +1,11 @@
-54167438094ff4a0449552c3bb620d3c *DESCRIPTION
+108c9e029445630bd42059d0355183ce *DESCRIPTION
 9fb7b8c4444cc39c7eeb54c61d9ddb97 *LICENSE
 31b38bbdf0e0799d29b6129807e2da9f *NAMESPACE
 9799f0c7b2c62411ea13343db2ed67b0 *R/create_dataset.R
 785f3a01090dbae908c029adb318a455 *R/get_observations.R
 8163fcab303104b5045aff2b64d00d1a *R/insert_observations.R
 f67269724ae3ff2ca2541745267996ba *R/openblender.R
-6eb0e935cabcebad4a1c6e0ae15e40d5 *R/utils.R
+d2c68016b34644843cbd09d6b6dce159 *R/utils.R
 56cdf46b3b061c6d23614d9abaf92901 *README.md
 3703a363a92a16021e4cbfe153e59ca9 *man/call.Rd
 85368a59321de82fd6e82e1f8be277b2 *man/comprobarJSONaDF.Rd
@@ -15,4 +15,4 @@ d192aa6b6e1e3be4303942635cd69115 *man/dameRespuestaLlamado.Rd
 df69c312d1f4910b8692754426c2f464 *man/insert_observations.Rd
 d8fe171e7ef1c994fc9229e0e8d8e6d2 *man/power_model.Rd
 ab8f83f37c044440fedbdb26ffc41b40 *tests/climas2018.csv
-00219ae2e2a38229f47223da5bb0735c *tests/testthat.R
+cf77c5b34e795d3833457ab31b97dc6a *tests/testthat.R

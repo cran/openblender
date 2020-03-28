@@ -9,10 +9,16 @@ dameRespuestaLlamado <- function(url, data) {
   resp <- POST(url = url, body = data, encode = "form")
   # message("RESPUESTA")
   # message(resp)
-  if ("status" %in% attributes(content(resp))$names && content(resp)$status == "error") {
-    warning("------------------------------------------------")
-    warning(paste("API call error: ", content(resp)$response))
-    warning("------------------------------------------------")
+  if ("status" %in% attributes(content(resp))$names && content(resp)$status != "success") {
+    if (content(resp)$status == "error") {
+      warning("------------------------------------------------")
+      warning(paste("API call error: ", content(resp)$response))
+      warning("------------------------------------------------")
+    } else {
+      message("------------------------------------------------")
+      message(content(resp)$response)
+      message("------------------------------------------------")
+    }
     return(FALSE)
   } else {
     cont <- content(resp)

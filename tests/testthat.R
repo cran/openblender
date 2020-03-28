@@ -62,31 +62,30 @@
 #
 # # prueba pull data con blend y text vectorizer
 
-action <- "API_getObservationsFromDataset"
-
-# ANCHOR: 'Time Entertainment headlines'
-
-
-parameters <- list(
-  token="5d07bed33e59b27a93e43be804ij5qcy5ss9jHsoBpwpxsvLZqyrcU",
-  id_user="5d07bed33e59b27a93e43be8",
-  id_dataset="5d88492e9516294231c59595"
-)
-
-
-df <- openblender::call(action, parameters)$sample
-head(df)
+# action <- "API_getObservationsFromDataset"
+#
+# # ANCHOR: 'Time Entertainment headlines'
+#
+#
+# parameters <- list(
+#   token="5d07bed33e59b27a93e43be804ij5qcy5ss9jHsoBpwpxsvLZqyrcU",
+#   id_user="5d07bed33e59b27a93e43be8",
+#   id_dataset="5d88492e9516294231c59595"
+# )
+#
+#
+# df <- openblender::call(action, parameters)$sample
+# head(df)
 
 
 # probar get open text data
-# action <- "API_getOpenTextData"
-# parameters <- list(
-#   token="5ca62dafe213e54e846509eaUfctPkE1Imah1QNaoNYCp9fbZKjzOW",
-#   date_filter = list(start_date="2020-01-01", end_date="2020-03-10"),
-#   text_filter_search = list("covid","coronavirus"),
-#   aggregate_in_time_interval = list(time_interval_size = 60 * 60 * 24),
-#   sources = list(list(id_dataset = '5e2ef74e9516294390e810a9', features = list('text')))
-# )
-# df <- openblender::call(action, parameters)
-#
-# view(df)
+action <- "API_getOpenTextData"
+parameters <- list(
+  token="5ca62dafe213e54e846509eaUfctPkE1Imah1QNaoNYCp9fbZKjzOW",
+  date_filter = list(start_date="2020-01-01", end_date="2020-03-10"),
+  text_filter_search = list("covid","coronavirus"),
+  aggregate_in_time_interval = list(time_interval_size = 60 * 60 * 24),
+  sources = list(list(id_dataset = '5e2ef74e9516294390e810a9', features = list('text')))
+)
+df <- openblender::call(action, parameters)$sample
+head(df)
