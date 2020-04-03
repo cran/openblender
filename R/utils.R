@@ -11,12 +11,8 @@ dameRespuestaLlamado <- function(url, data) {
   # message(resp)
   if ("status" %in% attributes(content(resp))$names && content(resp)$status != "success") {
     if (content(resp)$status == "error") {
-      warning("------------------------------------------------")
-      warning(paste("API call error: ", content(resp)$response))
-      warning("------------------------------------------------")
-    } else {
       message("------------------------------------------------")
-      message(content(resp)$response)
+      message(paste("Error OpenBlender API: ", content(resp)$response))
       message("------------------------------------------------")
     }
     return(FALSE)

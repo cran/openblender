@@ -77,7 +77,6 @@
 # df <- openblender::call(action, parameters)$sample
 # head(df)
 
-
 # probar get open text data
 action <- "API_getOpenTextData"
 parameters <- list(
