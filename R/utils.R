@@ -74,3 +74,19 @@ comprobarJSONaDF <- function(df_json) {
   })
   return(obj)
 }
+
+writeAppendInFile <- function(df, file_name, action) {
+  tryCatch({
+    cleaned <- df
+    # clean data to write in file
+    if(action != "API_getOpenTextData"){
+      cleaned <- clean_dataframe(df)
+      cleaned <- clean_dataframe(df, rep=2)
+    }
+    options(warn=-1)
+    write.table(cleaned, file_name, sep = ",", col.names = !file.exists(file_name), row.names = F, append = T)
+    options(warn=0)
+  }, error = function(e) {
+    message("Exception in writeAppendInFile")
+  })
+}

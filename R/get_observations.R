@@ -81,6 +81,8 @@ clean_dataframe <- function(df, rep=1) {
 #'@return List of observations obtained with \link{dameRespuestaLlamado}.
 #'@keywords internal
 genericDownloadCall <- function(json_parametros, url, action, n_test_observations, slice_mult) {
+  respuesta = ""
+  nom_archivo = paste(as.numeric(as.POSIXct(Sys.time())), ".csv", sep = "")
   start <- Sys.time()
   if ("test_call" %in% attributes(json_parametros)$names && (json_parametros$test_call == 1 || json_parametros$test_call == "on")) {
     test_call <- 1
@@ -88,7 +90,9 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
     test_call <- FALSE
   }
   if (test_call == 1) {
+    cat("\n")
     message("This is a TEST CALL, set \"test_call\"=\"off\" or remove to execute service.")
+    cat("\n")
     data <- list(action = action, json = json_parametros)
     respuesta <- dameRespuestaLlamado(url, data)
     df_resp <- respuesta$sample
@@ -116,7 +120,8 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
           json_parametros$skip <- tam_pedazo * i
           data <- list(action = action, json = json_parametros)
           respuesta <- dameRespuestaLlamado(url, data)
-          df <- respuesta$sample
+          df <- as.data.frame(respuesta$sample)
+          writeAppendInFile(df, nom_archivo, action)
           if (is.null(df_resp)) {
             df_resp <- df
           } else {

@@ -78,13 +78,35 @@
 # head(df)
 
 # probar get open text data
-action <- "API_getOpenTextData"
-parameters <- list(
-  token="5ca62dafe213e54e846509eaUfctPkE1Imah1QNaoNYCp9fbZKjzOW",
-  date_filter = list(start_date="2020-01-01", end_date="2020-03-10"),
-  text_filter_search = list("covid","coronavirus"),
-  aggregate_in_time_interval = list(time_interval_size = 60 * 60 * 24),
-  sources = list(list(id_dataset = '5e2ef74e9516294390e810a9', features = list('text')))
-)
-df <- openblender::call(action, parameters)$sample
-head(df)
+# action <- "API_getOpenTextData"
+# parameters <- list(
+#   token="5ca62dafe213e54e846509eaUfctPkE1Imah1QNaoNYCp9fbZKjzOW",
+#   date_filter = list(start_date="2020-01-01", end_date="2020-03-10"),
+#   text_filter_search = list("covid","coronavirus"),
+#   aggregate_in_time_interval = list(time_interval_size = 60 * 60 * 24),
+#   sources = list(list(id_dataset = '5e2ef74e9516294390e810a9', features = list('text')))
+# )
+# df <- openblender::call(action, parameters)$sample
+# head(df)
+
+
+#Load OpenBlender package
+# library(openblender)
+#
+#
+# action <- "API_getObservationsFromDataset"
+#
+# # ANCHOR: 'Apple Inc. Price'
+#
+#
+# parameters <- list(
+#   token="5d07bed33e59b27a93e43be8bZSHRaIfbxbyUEuviAsfPjweLj8mKz",
+#   id_user="5d07bed33e59b27a93e43be8",
+#   id_dataset="5d4c39d09516290b01c8307b",
+#   consumption_confirmation = "on"
+# )
+#
+#
+# df <- openblender::call(action, parameters)$sample
+# head(df)
+
