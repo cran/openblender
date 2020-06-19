@@ -87,6 +87,7 @@ writeAppendInFile <- function(df, file_name, action) {
     write.table(cleaned, file_name, sep = ",", col.names = !file.exists(file_name), row.names = F, append = T)
     options(warn=0)
   }, error = function(e) {
-    message("Exception in writeAppendInFile")
+    cat("\n")
+    message("Unable to save CSV locally, please save dataframe when download completes.")
   })
 }

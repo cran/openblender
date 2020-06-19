@@ -123,6 +123,7 @@ genericDownloadCall <- function(json_parametros, url, action, n_test_observation
           df <- as.data.frame(respuesta$sample)
           writeAppendInFile(df, nom_archivo, action)
           if (is.null(df_resp)) {
+            message(paste("Observations are being saved in", nom_archivo))
             df_resp <- df
           } else {
             df_resp <- rbind(df_resp, df)
